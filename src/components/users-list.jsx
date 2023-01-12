@@ -28,15 +28,18 @@ export const UsersList = () => {
 	// if (error) return <p>Error - ${error.message}</p>;
 
 	return (
-    <div>
+    <div className="px-20">
       <UsersSearch search={search} setSearch={setSearch} />
       {isLoading && <p>Loading</p>}
       {error && <p>Error - {error.message}</p>}
 	  {data && (
-		<div className="grid grid-cols-4" >
+		<div className="grid grid-cols-4 justify-center gap-5" >
         {data.data.items.map((user) => (
-          <div className="my-[12px]" key={user.id}>
+          <div className="my-[12px] p-8 border-2 border-cyan-400" key={user.id}>
+			<div className="flex row justify-between">
+			<img src={user.avatar_url} className="w-36"/>
             <p>{user.login}</p>
+			</div>
           </div>
         ))}
       </div>
