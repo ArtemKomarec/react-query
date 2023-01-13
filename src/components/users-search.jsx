@@ -1,13 +1,19 @@
-export const UsersSearch = ({search, setSearch}) => {
+export const UsersSearch = ({ setSearch }) => {
 	const handleChange = (e) => {
-		setSearch(e.target.value)
-	}
+		setSearch(e.target.value);
+	};
 	return (
-		<div
-			style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-		>
+		<div className="flex flex-col items-center">
 			<h1>Search users</h1>
-			<input type="text" onChange={handleChange}/>
+			<input
+				className="p-2 rounded-md border-2 border-sky-500	 focus-visible: outline-0	"
+				type="text"
+				onChange={handleChange}
+			/>
 		</div>
 	);
 };
+
+// .select-menu-container:focus-visible {
+// 	outline: none;
+// }
