@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { UsersSearch } from "./users-search";
 import React from "react";
-import { GetUsersQuery } from "./users";
+import { GetUsersQuery } from "../hooks/useUsersList";
 import { Pagination } from "./pagination";
+import { UseUserInfo } from "../hooks/useUser";
+import { UserProfile } from "./user-profile";
 
 export const UsersList = () => {
 	const [search, setSearch] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [postsPerPage] = useState(8);
+	const [userInfo, setUserInfo] = useState("");
 
 	const { isLoading, error, usersList, isFetching } = GetUsersQuery(search);
 
@@ -27,46 +30,63 @@ export const UsersList = () => {
 		}
 	}
 
-	const showUserInfo = (userId) => {
-		console.log(userId);
+	const prevPage = () => {
+		if (currentPage !== 1) {
+			setCurrentPage(currentPage - 1);
+		}
+	};
+
+	const nextPage = () => {
+		if (currentPage !== Math.ceil(usersList.items.length / postsPerPage)) {
+			setCurrentPage(currentPage + 1);
+		}
+	};
+	const showUserInfo = (username) => {
+		setUserInfo(username);
 	};
 
 	return (
 		<div className="py-10 px-10 flex flex-col items-center">
-			{/* {console.log(currentPosts, usersList)} */}
 			<UsersSearch search={search} setSearch={setSearch} />{" "}
 			{isLoading && isFetching && <p>Loading</p>}
 			{error && <p>Error - {error.message}</p>}
 			{search && currentPosts && (
-				<div className="flex flex-row gap-10">
-					<div className="grid grid-cols-4 justify-center gap-5">
-						{currentPosts.map((user) => (
-							<div
-								className="my-[12px] p-8 flex flex-col gap-4 border-2 border-cyan-400"
-								key={user.id}
-							>
-								<div className="flex row gap-5">
-									<img
-										src={user.avatar_url}
-										alt={user.login + " " + user.id}
-										className="w-36"
-									/>
-									<p> Username: {user.login}</p>
-								</div>
+				<div className="mt-10">
+					<div className="flex flex-row gap-10">
+						<div className="grid grid-cols-4 justify-center gap-5">
+							{currentPosts.map((user) => (
 								<div
-									className="py-2 border-2 border-sky-500 bg-white text-center text-sky-500 cursor-pointer
-									hover:bg-sky-500 hover:text-white "
-									onClick={() => showUserInfo(user.id)}
+									className="my-[12px] p-8 flex flex-col gap-4 border-2 border-cyan-400"
+									key={user.id}
 								>
-									Show profile
+									<div className="flex row gap-5">
+										<img
+											src={user.avatar_url}
+											alt={user.login + " " + user.id}
+											className="w-36"
+										/>
+										<p> Username: {user.login}</p>
+									</div>
+									<div
+										className="py-2 border-2 border-sky-500 bg-white text-center text-sky-500 cursor-pointer
+									hover:bg-sky-500 hover:text-white "
+										onClick={() => showUserInfo(user.login)}
+									>
+										Show profile
+									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
+						{userInfo && <UserProfile userInfo={userInfo} />}
 					</div>
-					<div className="h-[800px] my-[12px] border-2 border-cyan-400 "></div>
+					<Pagination
+						pagesList={pagesList}
+						setCurrentPage={setCurrentPage}
+						prevPage={prevPage}
+						nextPage={nextPage}
+					/>
 				</div>
 			)}
-			<Pagination pagesList={pagesList} setCurrentPage={setCurrentPage} />
 		</div>
 	);
 };

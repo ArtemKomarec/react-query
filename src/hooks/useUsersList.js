@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { USERS_API } from "../constants";
-import useDebounce from "./debounce";
+import useDebounce from "./useDebounce";
 
 export const GetUsersQuery = (search) => {
 	const debouncedSearchValue = useDebounce(search, 500);
@@ -12,7 +12,7 @@ export const GetUsersQuery = (search) => {
 		data: usersList,
 		isFetching,
 	} = useQuery({
-		queryKey: ["users", debouncedSearchValue],
+		queryKey: ["usersList", debouncedSearchValue],
 		queryFn: async () => {
 			if (debouncedSearchValue) {
 				const {
