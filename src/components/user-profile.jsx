@@ -7,7 +7,6 @@ export const UserProfile = () => {
 		isLoading,
 		error,
 		data: user,
-		isFetching,
 	} = useQuery({
 		queryKey: ["personalData"],
 		queryFn: async () => {

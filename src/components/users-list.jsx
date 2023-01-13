@@ -1,38 +1,46 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
-import { USERS_API } from "../constants";
 import { UsersSearch } from "./users-search";
 import React from "react";
-import useDebounce from "./debounce";
+import { GetUsersQuery } from "./users";
+import { Pagination } from "./pagination";
 
 export const UsersList = () => {
 	const [search, setSearch] = useState("");
-	const debouncedSearchValue = useDebounce(search, 500);
-	const { error, data, isFetching } = useQuery({
-		queryKey: ["users", debouncedSearchValue],
-		queryFn: async () => {
-			const result = await axios.get(`${USERS_API + search}`);
-			console.log(result);
-			return result;
-		},
-		enabled: Boolean(search),
-	});
+	const [currentPage, setCurrentPage] = useState(1);
+	const [postsPerPage] = useState(8);
+
+	const { isLoading, error, usersList, isFetching } = GetUsersQuery(search);
+
+	const indexOfLastCard = currentPage * postsPerPage;
+	const indexOfFirstCard = indexOfLastCard - postsPerPage;
+	let currentPosts;
+	let pagesList = [];
+
+	if (usersList) {
+		currentPosts = usersList.items.slice(indexOfFirstCard, indexOfLastCard);
+		for (
+			let i = 1;
+			i <= Math.ceil(usersList.items.length / postsPerPage);
+			i++
+		) {
+			pagesList.push(i);
+		}
+	}
 
 	const showUserInfo = (userId) => {
-		console.log("a");
 		console.log(userId);
 	};
 
 	return (
-		<div className="px-20 ">
-			<UsersSearch search={search} setSearch={setSearch} />
-			{isFetching && <p>Loading</p>}
+		<div className="py-10 px-10 flex flex-col items-center">
+			{/* {console.log(currentPosts, usersList)} */}
+			<UsersSearch search={search} setSearch={setSearch} />{" "}
+			{isLoading && isFetching && <p>Loading</p>}
 			{error && <p>Error - {error.message}</p>}
-			{search && data && (
+			{search && currentPosts && (
 				<div className="flex flex-row gap-10">
 					<div className="grid grid-cols-4 justify-center gap-5">
-						{data.data.items.map((user) => (
+						{currentPosts.map((user) => (
 							<div
 								className="my-[12px] p-8 flex flex-col gap-4 border-2 border-cyan-400"
 								key={user.id}
@@ -46,7 +54,7 @@ export const UsersList = () => {
 									<p> Username: {user.login}</p>
 								</div>
 								<div
-									className=" py-2 border-2 border-sky-500 bg-white text-center text-sky-500 cursor-pointer
+									className="py-2 border-2 border-sky-500 bg-white text-center text-sky-500 cursor-pointer
 									hover:bg-sky-500 hover:text-white "
 									onClick={() => showUserInfo(user.id)}
 								>
@@ -58,6 +66,7 @@ export const UsersList = () => {
 					<div className="h-[800px] my-[12px] border-2 border-cyan-400 "></div>
 				</div>
 			)}
+			<Pagination pagesList={pagesList} setCurrentPage={setCurrentPage} />
 		</div>
 	);
 };

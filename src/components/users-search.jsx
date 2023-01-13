@@ -1,4 +1,4 @@
-export const UsersSearch = ({ setSearch }) => {
+export const UsersSearch = ({ search, setSearch }) => {
 	const handleChange = (e) => {
 		setSearch(e.target.value);
 	};
@@ -8,6 +8,7 @@ export const UsersSearch = ({ setSearch }) => {
 			<input
 				className="p-2 rounded-md border-2 border-sky-500	 focus-visible: outline-0	"
 				type="text"
+				value={search}
 				onChange={handleChange}
 			/>
 		</div>
