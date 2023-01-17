@@ -20,8 +20,6 @@ export const UserProfile = ({ userInfo, setUserInfo }) => {
 					radius="9"
 					color="#00c2e0"
 					ariaLabel="loading"
-					wrapperStyle
-					wrapperClass
 				/>
 			)}
 			{user && repos && (

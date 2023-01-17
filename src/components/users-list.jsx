@@ -47,7 +47,7 @@ export const UsersList = () => {
 
 	return (
 		<div className="py-10 px-10 flex flex-col items-center">
-			<UsersSearch search={search} setSearch={setSearch} />{" "}
+			<UsersSearch search={search} setSearch={setSearch} />
 			{isLoading && isFetching && (
 				<Audio
 					height="80"
@@ -55,8 +55,6 @@ export const UsersList = () => {
 					radius="9"
 					color="green"
 					ariaLabel="#00c2e0"
-					wrapperStyle
-					wrapperClass
 				/>
 			)}
 			{error && <p>Error - {error.message}</p>}

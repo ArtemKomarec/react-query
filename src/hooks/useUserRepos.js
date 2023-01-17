@@ -17,7 +17,7 @@ export const UseUserRepos = (username) => {
 					per_page: 100,
 				}
 			);
-			console.log(result);
+			console.log("repos", result);
 			return result;
 		},
 		enabled: !!username,

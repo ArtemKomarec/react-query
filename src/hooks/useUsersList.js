@@ -23,7 +23,7 @@ export const GetUsersQuery = (search) => {
 			}
 			return { items: [] };
 		},
-		enabled: Boolean(search),
+		enabled: !!search,
 	});
 	return { isLoading, error, usersList, isFetching };
 };
