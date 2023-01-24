@@ -53,7 +53,6 @@ export const UserProfile = ({ userInfo, setUserInfo }) => {
 							</a>
 						))}
 					</div>
-					{console.log("repos", repos)}
 				</div>
 			)}
 		</div>

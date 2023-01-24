@@ -7,8 +7,6 @@ export const Header = () => {
 		localStorage.removeItem("token");
 	};
 
-	console.log(token);
-
 	return (
 		<div className="py-4 px-7 flex flex-row justify-between bg-gray-700 text-white">
 			<p>Github Users search</p>

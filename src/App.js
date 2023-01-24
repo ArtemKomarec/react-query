@@ -1,42 +1,44 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./components/home";
 import { Login } from "./components/login";
 import { SignUp } from "./components/sign-up";
 import { UsersList } from "./components/users-list";
 import { API } from "./constants";
 
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			staleTime: 10000,
+		},
+	},
+});
+
 export const App = () => {
-	const [authUser, setAuthUser] = useState(true);
-	const navigate = useNavigate();
-	const token = localStorage.getItem("token");
+	const [authUser, setAuthUser] = useState(false);
 
 	useEffect(() => {
 		const checkAuth = async () => {
+			const token = localStorage.getItem("token");
+
 			try {
-				console.log(token);
 				if (token) {
 					await axios.get(`${API}/messages`, {
 						headers: { Authorization: `Bearer ${token}` },
 					});
 					setAuthUser(true);
-					navigate("/users-search");
-				} else {
-					setAuthUser(false);
-					navigate("/login");
 				}
 			} catch (e) {
 				if (e.response.status === 401) {
 					setAuthUser(false);
-					navigate("/login");
 				}
 			}
 		};
 		checkAuth();
 	}, []);
-
-	console.log(authUser);
 
 	const notAuthRoutes = [
 		{ path: "*", component: <Login /> },
@@ -54,14 +56,18 @@ export const App = () => {
 	const routes = authUser ? authRoutes : notAuthRoutes;
 
 	return (
-		<Routes>
-			{routes.map((route, index) => (
-				<Route
-					path={route.path}
-					element={route.component}
-					key={route.path + index}
-				/>
-			))}
-		</Routes>
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<Routes>
+					{routes.map((route, index) => (
+						<Route
+							path={route.path}
+							element={route.component}
+							key={route.path + index}
+						/>
+					))}
+				</Routes>
+			</BrowserRouter>
+		</QueryClientProvider>
 	);
 };

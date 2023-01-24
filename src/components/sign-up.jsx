@@ -16,7 +16,6 @@ export const SignUp = () => {
 
 	const addNewUser = async () => {
 		const response = await axios.post(`${API}/register`, newUser);
-		console.log(response, "response");
 	};
 
 	return (
