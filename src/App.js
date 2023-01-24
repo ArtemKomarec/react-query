@@ -1,4 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "./components/home";
+import { Login } from "./components/login";
 import { UsersList } from "./components/users-list";
 
 const queryClient = new QueryClient({
@@ -13,7 +16,13 @@ const queryClient = new QueryClient({
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<UsersList />
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/users-search" element={<UsersList />} />
+				</Routes>
+			</BrowserRouter>
 		</QueryClientProvider>
 	);
 }
