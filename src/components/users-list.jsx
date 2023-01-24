@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UsersSearch } from "./users-search";
 import React from "react";
 import { GetUsersQuery } from "../hooks/useUsersList";
@@ -6,6 +6,8 @@ import { Pagination } from "./pagination";
 import { UserProfile } from "./user-profile";
 import { Audio } from "react-loader-spinner";
 import { Header } from "./header";
+import axios from "axios";
+import { API } from "../constants";
 
 export const UsersList = () => {
 	const [search, setSearch] = useState("");
