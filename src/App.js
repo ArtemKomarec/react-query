@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./components/home";
 import { Login } from "./components/login";
 import { SignUp } from "./components/sign-up";
-import { UsersList } from "./components/users-list";
+import { UsersList } from "../src/components/users/users-list";
 import { API } from "./constants";
 
 const queryClient = new QueryClient({

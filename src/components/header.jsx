@@ -1,11 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { deleteToken } from "./service";
 
 export const Header = () => {
 	const token = localStorage.getItem("token");
-
-	const logout = () => {
-		localStorage.removeItem("token");
-	};
 
 	return (
 		<div className="py-4 px-7 flex flex-row justify-between bg-gray-700 text-white">
@@ -17,7 +14,7 @@ export const Header = () => {
 				<li>{token !== null && <Link to="/users-search">UsersList</Link>}</li>
 				<li>
 					{token !== null ? (
-						<Link onClick={logout} to="/login">
+						<Link onClick={deleteToken} to="/login">
 							Logout
 						</Link>
 					) : (

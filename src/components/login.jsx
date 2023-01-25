@@ -1,8 +1,8 @@
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { API } from "../constants";
+import { Link } from "react-router-dom";
 import { Header } from "./header";
+import { login } from "./service";
 
 export const Login = () => {
 	const [user, getUser] = useState({
@@ -14,9 +14,17 @@ export const Login = () => {
 		getUser({ ...user, [e.target.name]: e.target.value });
 	};
 
-	const authUser = async () => {
-		const response = await axios.post(`${API}/login`, user);
-		localStorage.setItem("token", response.data.accessToken);
+	const mutation = useMutation(login, {
+		onSuccess: () => {
+			console.log("Success login");
+		},
+		onError: () => {
+			console.log("Error login");
+		},
+	});
+
+	const authUser = () => {
+		mutation.mutate(user);
 	};
 
 	return (

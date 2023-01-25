@@ -1,6 +1,6 @@
-import { Cross } from "../assets/icons/cross";
-import { UseUserInfo } from "../hooks/useUser";
-import { UseUserRepos } from "../hooks/useUserRepos";
+import { Cross } from "../../assets/icons/cross";
+import { UseUserInfo } from "../../hooks/useUser";
+import { UseUserRepos } from "../../hooks/useUserRepos";
 import { Audio } from "react-loader-spinner";
 
 export const UserProfile = ({ userInfo, setUserInfo }) => {

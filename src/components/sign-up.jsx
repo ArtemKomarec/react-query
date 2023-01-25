@@ -1,8 +1,8 @@
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { API } from "../constants";
+import { Link } from "react-router-dom";
 import { Header } from "./header";
+import { signUp } from "./service";
 
 export const SignUp = () => {
 	const [newUser, setNewUser] = useState({
@@ -14,8 +14,17 @@ export const SignUp = () => {
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
 	};
 
-	const addNewUser = async () => {
-		const response = await axios.post(`${API}/register`, newUser);
+	const mutation = useMutation(signUp, {
+		onSuccess: () => {
+			console.log("success sign up");
+		},
+		onError: () => {
+			console.log("error sign up");
+		},
+	});
+
+	const addNewUser = () => {
+		mutation.mutate(newUser);
 	};
 
 	return (
