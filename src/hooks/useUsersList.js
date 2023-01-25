@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { USERS_API } from "../constants";
+import { USERS_API } from "../utils/constants";
 import useDebounce from "./useDebounce";
 
 export const GetUsersQuery = (search) => {

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { USER_INFO } from "../constants";
+import { USER_INFO } from "../utils/constants";
 
 export const UseUserRepos = (username) => {
 	const {
