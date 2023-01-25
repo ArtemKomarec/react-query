@@ -1,21 +1,23 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "./header";
-import { login } from "./service";
+import { login } from "../utils/service";
 
 export const Login = () => {
 	const [user, getUser] = useState({
 		email: "",
 		password: "",
 	});
-
 	const changeHandler = (e) => {
 		getUser({ ...user, [e.target.name]: e.target.value });
 	};
 
+	const navigate = useNavigate();
+
 	const mutation = useMutation(login, {
 		onSuccess: () => {
+			navigate("/users-search");
 			console.log("Success login");
 		},
 		onError: () => {

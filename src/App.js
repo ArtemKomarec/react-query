@@ -7,6 +7,7 @@ import { Login } from "./components/login";
 import { SignUp } from "./components/sign-up";
 import { UsersList } from "../src/components/users/users-list";
 import { API } from "./constants";
+import * as router from "./utils/check-routes";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -18,54 +19,16 @@ const queryClient = new QueryClient({
 });
 
 export const App = () => {
-	const [authUser, setAuthUser] = useState(false);
-
-	useEffect(() => {
-		const checkAuth = async () => {
-			const token = localStorage.getItem("token");
-
-			try {
-				if (token) {
-					await axios.get(`${API}/messages`, {
-						headers: { Authorization: `Bearer ${token}` },
-					});
-					setAuthUser(true);
-				}
-			} catch (e) {
-				if (e.response.status === 401) {
-					setAuthUser(false);
-				}
-			}
-		};
-		checkAuth();
-	}, []);
-
-	const notAuthRoutes = [
-		{ path: "*", component: <Login /> },
-		{ path: "/", component: <Home /> },
-		{ path: "/login", component: <Login /> },
-		{ path: "/sign-up", component: <SignUp /> },
-	];
-
-	const authRoutes = [
-		{ path: "*", component: <Home /> },
-		{ path: "/", component: <Home /> },
-		{ path: "/users-search", component: <UsersList /> },
-	];
-
-	const routes = authUser ? authRoutes : notAuthRoutes;
-
 	return (
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
 				<Routes>
-					{routes.map((route, index) => (
-						<Route
-							path={route.path}
-							element={route.component}
-							key={route.path + index}
-						/>
-					))}
+					<Route element={<router.AuthRoutes />}>
+						<Route path="/users-search" element={<UsersList />} />
+					</Route>
+					<Route path="/login" element={<Login />} />
+					<Route path="/sign-up" element={<SignUp />} />
+					<Route path="/" element={<Home />} />
 				</Routes>
 			</BrowserRouter>
 		</QueryClientProvider>

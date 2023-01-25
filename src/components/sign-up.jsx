@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "./header";
-import { signUp } from "./service";
+import { signUp } from "../utils/service";
 
 export const SignUp = () => {
 	const [newUser, setNewUser] = useState({

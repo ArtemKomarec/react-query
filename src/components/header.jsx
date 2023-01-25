@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { deleteToken } from "./service";
+import { deleteToken } from "../utils/service";
 
 export const Header = () => {
 	const token = localStorage.getItem("token");
