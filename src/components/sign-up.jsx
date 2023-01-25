@@ -10,7 +10,8 @@ export const SignUp = () => {
 		onSuccess: () => {
 			console.log("success sign up");
 		},
-		onError: () => {
+		onError: (error) => {
+			console.log(error.response.data);
 			console.log("error sign up");
 		},
 	});
@@ -34,6 +35,7 @@ export const SignUp = () => {
 				>
 					{({ values, errors, touched }) => (
 						<>
+							{mutation.isLoading && <p>Loading...</p>}
 							<Form className="w-[300px] mt-5 px-7 flex flex-col content-center gap-6 leading-4">
 								<div>
 									<Field
@@ -57,6 +59,9 @@ export const SignUp = () => {
 										<span className="error-message">{errors.password}</span>
 									)}
 								</div>
+								{mutation.error && (
+									<p className="text-red-500">{mutation.error.response.data}</p>
+								)}
 								<button
 									className="py-2 border-2 border-sky-500 bg-sky-500 text-center text-white cursor-pointer
 									hover:bg-white hover:text-sky-500 transition ease-in-out delay-100  "
