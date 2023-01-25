@@ -61,8 +61,8 @@ export const UsersList = () => {
 						height="80"
 						width="80"
 						radius="9"
-						color="green"
-						ariaLabel="#00c2e0"
+						color="#00c2e0"
+						ariaLabel="loading"
 					/>
 				)}
 				{error && <p>Error - {error.message}</p>}
